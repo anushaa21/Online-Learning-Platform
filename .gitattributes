@@ -1,0 +1,35 @@
+# 1. Tự động xử lý text: Git sẽ tự nhận diện file văn bản.
+# Khi lưu vào Repo (commit) sẽ chuyển về LF.
+# Khi kéo về máy (checkout) sẽ dựa trên OS (Windows = CRLF, Linux = LF).
+* text=auto
+
+# 2. Ép kiểu cho file code C#
+*.cs     text diff=csharp
+*.csproj text merge=union
+*.sln    text merge=union
+*.config text
+*.json   text
+*.xml    text
+
+# 3. Xử lý các script đặc thù của từng OS
+# Shell script phải luôn là LF để chạy được trên Linux
+*.sh     text eol=lf
+# Batch file phải luôn là CRLF để chạy trên Windows CMD
+*.bat    text eol=crlf
+*.ps1    text eol=crlf
+
+# 4. Files nhị phân (Binary) - Giữ nguyên không can thiệp
+*.dll      binary
+*.exe      binary
+*.pdb      binary
+*.bin      binary
+*.jpg      binary
+*.png      binary
+*.gif      binary
+*.ico      binary
+*.zip      binary
+*.pdf      binary
+
+# 5. Các file đặc biệt của IDE/Environment
+.gitignore text
+.editorconfig text

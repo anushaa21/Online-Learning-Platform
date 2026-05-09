@@ -1,0 +1,85 @@
+# Top-most EditorConfig file
+root = true
+
+# ==============================================================================
+# 1. BASIC CONFIGURATION
+# ==============================================================================
+[*]
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+end_of_line = crlf
+
+[*.{json,xml,yml,html,cshtml,js,css}]
+indent_size = 2
+
+# ==============================================================================
+# 2. C# CONFIGURATION
+# ==============================================================================
+[*.cs]
+indent_size = 4
+charset = utf-8
+
+# --- PRIMARY CONSTRUCTORS (C# 12+) ---
+csharp_style_prefer_primary_constructors = true:warning
+
+# --- NAMESPACE & USING ---
+csharp_style_namespace_declarations = file_scoped:warning
+
+# --- PATTERN MATCHING & NULL ---
+csharp_style_prefer_not_null_pattern_over_reference_inequality_operator = true:suggestion
+csharp_style_prefer_null_check_over_type_check = true:suggestion
+
+# --- NEW OBJECTS ---
+csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
+
+# --- EXPRESSION BODIED MEMBERS ---
+csharp_style_expression_bodied_methods = true:silent
+csharp_style_expression_bodied_constructors = true:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+
+# --- STATIC & CONST ---
+dotnet_style_prefer_const_for_variable = true:suggestion
+
+# ==============================================================================
+# 3. NAMING RULES
+# ==============================================================================
+
+# A. Interface must have 'I' prefix
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
+dotnet_naming_symbols.interface_should_be_begins_with_i.applicable_kinds = interface
+dotnet_naming_symbols.interface_should_be_begins_with_i.applicable_accessibilities = public
+dotnet_naming_style.interface_should_be_begins_with_i.required_prefix = I
+
+# B. Private fields with underscore prefix
+dotnet_naming_rule.private_members_with_underscore.symbols = private_fields
+dotnet_naming_rule.private_members_with_underscore.style = prefix_underscore
+dotnet_naming_rule.private_members_with_underscore.severity = suggestion
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.prefix_underscore.capitalization = camel_case
+dotnet_naming_style.prefix_underscore.required_prefix = _
+
+# C. Service/Helper class async methods should end with Async
+# But excludes MVC controllers since their action methods don't follow this pattern
+dotnet_naming_rule.service_async_methods_end_in_async.symbols = service_async_methods
+dotnet_naming_rule.service_async_methods_end_in_async.style = end_in_async
+dotnet_naming_rule.service_async_methods_end_in_async.severity = suggestion
+
+dotnet_naming_symbols.service_async_methods.applicable_kinds = method
+dotnet_naming_symbols.service_async_methods.applicable_accessibilities = public, internal
+dotnet_naming_symbols.service_async_methods.resharper_applicable_kinds = method
+dotnet_naming_style.end_in_async.required_suffix = Async
+dotnet_naming_style.end_in_async.capitalization = pascal_case
+
+# ==============================================================================
+# 4. CODE ANALYSIS SUPPRESSION FOR MVC CONTROLLERS
+# ==============================================================================
+
+# Suppress CA1822 for MVC Controllers since action methods must be instance methods
+# even if they don't access instance data
+[**/Controllers/*.cs]
+dotnet_diagnostic.CA1822.severity = none
